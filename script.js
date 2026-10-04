@@ -1,38 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark')
-    } else {
-        document.documentElement.classList.remove('dark')
-    }
-})
-const navbar = document.getElementById("navbar");
-const navLink = document.getElementById("navLink");
-const mobileMenu = document.getElementById("mobileMenu");
+function calculatePrice() {
 
-function openMenu() {
-    mobileMenu.style.transform = 'translateX(-16rem)';
+    let moviePrice = Number(document.getElementById("movie").value);
+    let tickets = Number(document.getElementById("tickets").value);
+
+    if (tickets <= 0) {
+        alert("Please enter a valid number of tickets.");
+        return;
+    }
+
+    let totalPrice = moviePrice * tickets;
+
+    document.getElementById("price").innerHTML =
+        "Total Price: ₹" + totalPrice;
 }
 
-function closeMenu() {
-    mobileMenu.style.transform = 'translateX(0)';
-}
+function bookTicket() {
 
-function toggleTheme() {
-    document.documentElement.classList.toggle('dark');
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let movie = document.getElementById("movie");
+    let movieName = movie.options[movie.selectedIndex].text;
+    let moviePrice = Number(movie.value);
+    let tickets = Number(document.getElementById("tickets").value);
 
-    if (document.documentElement.classList.contains('dark')) {
-        localStorage.theme = 'dark';
-    } else {
-        localStorage.theme = 'light';
+    if (name === "" || email === "") {
+        alert("Please fill all the details.");
+        return;
     }
-}
 
-window.addEventListener('scroll', () => {
-    if (scrollY > 50) {
-        navbar.classList.add('bg-white', 'bg-opacity-50', 'backdrop-blur-lg', 'shadow-sm', 'dark:bg-darkTheme', 'dark:shadow-white/20');
-        navLink.classList.remove('bg-white', 'shadow-sm', 'bg-opacity-50', 'dark:border', 'dark:border-white/30', "dark:bg-transparent");
-    } else {
-        navbar.classList.remove('bg-white', 'bg-opacity-50', 'backdrop-blur-lg', 'shadow-sm', 'dark:bg-darkTheme', 'dark:shadow-white/20');
-        navLink.classList.add('bg-white', 'shadow-sm', 'bg-opacity-50', 'dark:border', 'dark:border-white/30', "dark:bg-transparent");
+    if (tickets <= 0) {
+        alert("Please enter a valid number of tickets.");
+        return;
     }
-})
+
+    let totalPrice = moviePrice * tickets;
+
+    document.getElementById("result").innerHTML = `
+        <h2>🎉 Booking Confirmed!</h2>
+        <br>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Movie:</strong> ${movieName}</p>
+        <p><strong>Tickets:</strong> ${tickets}</p>
+        <p><strong>Total Amount:</strong> ₹${totalPrice}</p>
+        <br>
+        <h3>Thank You for Booking!</h3>
+    `;
+}
